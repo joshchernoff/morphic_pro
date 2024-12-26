@@ -23,7 +23,9 @@ defmodule MorphicPro.OrganizationsTest do
     test "create_organization/1 with valid data creates a organization" do
       valid_attrs = %{description: "some description", title: "some title"}
 
-      assert {:ok, %Organization{} = organization} = Organizations.create_organization(valid_attrs)
+      assert {:ok, %Organization{} = organization} =
+               Organizations.create_organization(valid_attrs)
+
       assert organization.description == "some description"
       assert organization.title == "some title"
     end
@@ -36,14 +38,19 @@ defmodule MorphicPro.OrganizationsTest do
       organization = organization_fixture()
       update_attrs = %{description: "some updated description", title: "some updated title"}
 
-      assert {:ok, %Organization{} = organization} = Organizations.update_organization(organization, update_attrs)
+      assert {:ok, %Organization{} = organization} =
+               Organizations.update_organization(organization, update_attrs)
+
       assert organization.description == "some updated description"
       assert organization.title == "some updated title"
     end
 
     test "update_organization/2 with invalid data returns error changeset" do
       organization = organization_fixture()
-      assert {:error, %Ecto.Changeset{}} = Organizations.update_organization(organization, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.update_organization(organization, @invalid_attrs)
+
       assert organization == Organizations.get_organization!(organization.id)
     end
 

@@ -21,7 +21,12 @@ defmodule MorphicPro.PostsTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{description: "some description", title: "some title", body: "some body", published_at: ~N[2024-12-25 03:06:00]}
+      valid_attrs = %{
+        description: "some description",
+        title: "some title",
+        body: "some body",
+        published_at: ~N[2024-12-25 03:06:00]
+      }
 
       assert {:ok, %Post{} = post} = Posts.create_post(valid_attrs)
       assert post.description == "some description"
@@ -36,7 +41,13 @@ defmodule MorphicPro.PostsTest do
 
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
-      update_attrs = %{description: "some updated description", title: "some updated title", body: "some updated body", published_at: ~N[2024-12-26 03:06:00]}
+
+      update_attrs = %{
+        description: "some updated description",
+        title: "some updated title",
+        body: "some updated body",
+        published_at: ~N[2024-12-26 03:06:00]
+      }
 
       assert {:ok, %Post{} = post} = Posts.update_post(post, update_attrs)
       assert post.description == "some updated description"

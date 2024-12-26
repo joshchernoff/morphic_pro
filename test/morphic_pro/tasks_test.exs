@@ -35,7 +35,12 @@ defmodule MorphicPro.TasksTest do
 
     test "update_task/2 with valid data updates the task" do
       task = task_fixture()
-      update_attrs = %{status: :in_progress, body: "some updated body", title: "some updated title"}
+
+      update_attrs = %{
+        status: :in_progress,
+        body: "some updated body",
+        title: "some updated title"
+      }
 
       assert {:ok, %Task{} = task} = Tasks.update_task(task, update_attrs)
       assert task.status == :in_progress

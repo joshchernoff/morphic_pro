@@ -133,6 +133,14 @@ defmodule MorphicPro.Users.User do
   end
 
   @doc """
+  Sets admin boolean flag
+  """
+
+  def admin_changeset(user, attrs) do
+    cast(user, attrs, [:admin])
+  end
+
+  @doc """
   Verifies the password.
 
   If there is no user or the user doesn't have a password, we call

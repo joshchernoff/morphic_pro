@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+config :morphic_pro, :env, config_env()
+
 config :morphic_pro,
   ecto_repos: [MorphicPro.Repo],
   generators: [timestamp_type: :utc_datetime, binary_id: true]

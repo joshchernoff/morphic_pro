@@ -1,6 +1,5 @@
 defmodule MorphicProWeb.Router do
   use MorphicProWeb, :router
-
   import MorphicProWeb.UserAuth
 
   pipeline :browser do
@@ -12,21 +11,6 @@ defmodule MorphicProWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
   end
-
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
-  # scope "/", MorphicProWeb do
-  #   pipe_through :browser
-
-  #   get "/", PageController, :home
-  # end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", MorphicProWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:morphic_pro, :dev_routes) do
@@ -45,31 +29,36 @@ defmodule MorphicProWeb.Router do
     end
   end
 
-  ## Authentication routes
-
   scope "/", MorphicProWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
+    live_session :redirect_if_user_is_authenticated,
+      on_mount: [{MorphicProWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+      live "/users/register", UserLive.Registration, :new
+      live "/users/log_in", UserLive.Login, :new
+      live "/users/reset_password", UserLive.ForgotPassword, :new
+      live "/users/reset_password/:token", UserLive.ResetPassword, :edit
+    end
+
     post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
   end
 
   scope "/", MorphicProWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-
     live_session :admin,
       on_mount: [{MorphicProWeb.UserAuth, :ensure_admin}] do
+      live "/admin/users/:id/edit", AdminLive.Users, :edit
+      live "/admin/users/:id", AdminLive.Users, :show
+      live "/admin/users", AdminLive.Users, :index
+
       live "/admin", AdminLive.Dashboard, :dashboard
+    end
+
+    live_session :require_authenticated_user,
+      on_mount: [{MorphicProWeb.UserAuth, :ensure_authenticated}] do
+      live "/users/settings", UserLive.Settings, :edit
+      live "/users/settings/confirm_email/:token", UserLive.Settings, :confirm_email
     end
   end
 
@@ -77,13 +66,12 @@ defmodule MorphicProWeb.Router do
     pipe_through [:browser]
 
     get "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
 
     live_session :current_user,
       on_mount: [{MorphicProWeb.UserAuth, :mount_current_user}] do
+      live "/users/confirm/:token", UserLive.Confirmation, :edit
+      live "/users/confirm", UserLive.ConfirmationInstructions, :new
+
       live "/", PageLive.Home, :home
     end
   end

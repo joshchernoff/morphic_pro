@@ -149,6 +149,21 @@ defmodule MorphicProWeb.UserAuth do
     {:cont, mount_current_user(socket, session)}
   end
 
+  def on_mount(:ensure_admin, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    if socket.assigns.current_user && socket.assigns.current_user.admin do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You don't have permission to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+      {:halt, socket}
+    end
+  end
+
   def on_mount(:ensure_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
 
@@ -159,21 +174,6 @@ defmodule MorphicProWeb.UserAuth do
         socket
         |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
         |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
-
-      {:halt, socket}
-    end
-  end
-
-  def on_mount(:ensure_admin, _params, session, socket) do
-    socket = mount_current_user(socket, session)
-
-    if socket.assigns.current_user && socket.assigns.current_user.admin do
-      {:cont, socket}
-    else
-      socket =
-        socket
-        |> Phoenix.LiveView.put_flash(:error, "You are not authorized to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/")
 
       {:halt, socket}
     end
@@ -240,11 +240,6 @@ defmodule MorphicProWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
-  defp signed_in_path(%{admin: true}) do
-    ~p"/admin"
-  end
-
-  defp signed_in_path(_) do
-    ~p"/"
-  end
+  defp signed_in_path(%{admin: true}), do: ~p"/admin"
+  defp signed_in_path(_user), do: ~p"/"
 end

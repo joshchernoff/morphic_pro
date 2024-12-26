@@ -81,19 +81,6 @@ defmodule MorphicPro.Users do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for changing the user admin flag.
-
-  ## Examples
-
-      iex> change_user_admin(user)
-      %Ecto.Changeset{data: %User{}}
-
-  """
-  def change_user_admin(user, attrs \\ %{}) do
-    User.admin_changeset(user, attrs)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples

@@ -1,6 +1,6 @@
 <.layout current_user={@current_user}>
-  <div class="mx-auto max-w-sm">
-    <.header class="text-center">
+  <div>
+    <.header>
       Reset Password
     </.header>
 
@@ -17,13 +17,13 @@
         required
       />
       <:actions>
-        <.button phx-disable-with="Resetting..." class="w-full">
+        <.button phx-disable-with="Resetting...">
           Reset password
         </.button>
       </:actions>
     </.simple_form>
 
-    <p class="text-center text-sm mt-4">
+    <p>
       <.link href={~p"/users/register"}>Register</.link>
       | <.link href={~p"/users/log_in"}>Log in</.link>
     </p>

@@ -1,10 +1,10 @@
 <.layout current_user={@current_user}>
-  <.header class="text-center">
+  <.header>
     Account Settings
     <:subtitle>Manage your account email address and password settings</:subtitle>
   </.header>
 
-  <div class="space-y-12 divide-y">
+  <div>
     <div>
       <.simple_form :let={f} for={@email_changeset} action={~p"/users/settings"} id="update_email">
         <.error :if={@email_changeset.action}>

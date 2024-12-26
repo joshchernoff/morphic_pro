@@ -1,14 +1,14 @@
 <.layout current_user={@current_user}>
-  <div class="mx-auto max-w-sm">
-    <.header class="text-center">Confirm account</.header>
+  <div>
+    <.header>Confirm account</.header>
 
     <.simple_form for={@conn.params["user"]} as={:user} action={~p"/users/confirm/#{@token}"}>
       <:actions>
-        <.button class="w-full">Confirm my account</.button>
+        <.button>Confirm my account</.button>
       </:actions>
     </.simple_form>
 
-    <p class="text-center mt-4">
+    <p>
       <.link href={~p"/users/register"}>Register</.link>
       | <.link href={~p"/users/log_in"}>Log in</.link>
     </p>

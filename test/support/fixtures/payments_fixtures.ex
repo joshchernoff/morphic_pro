@@ -11,7 +11,7 @@ defmodule MorphicPro.PaymentsFixtures do
     {:ok, payment} =
       attrs
       |> Enum.into(%{
-
+        total: 0
       })
       |> MorphicPro.Payments.create_payment()
 

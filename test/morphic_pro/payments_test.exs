@@ -8,7 +8,7 @@ defmodule MorphicPro.PaymentsTest do
 
     import MorphicPro.PaymentsFixtures
 
-    @invalid_attrs %{}
+    @invalid_attrs %{total: nil}
 
     test "list_payments/0 returns all payments" do
       payment = payment_fixture()
@@ -21,9 +21,10 @@ defmodule MorphicPro.PaymentsTest do
     end
 
     test "create_payment/1 with valid data creates a payment" do
-      valid_attrs = %{}
+      valid_attrs = %{total: 1}
 
       assert {:ok, %Payment{} = payment} = Payments.create_payment(valid_attrs)
+      assert payment.total == 1
     end
 
     test "create_payment/1 with invalid data returns error changeset" do
@@ -32,9 +33,9 @@ defmodule MorphicPro.PaymentsTest do
 
     test "update_payment/2 with valid data updates the payment" do
       payment = payment_fixture()
-      update_attrs = %{}
-
+      update_attrs = %{total: 3}
       assert {:ok, %Payment{} = payment} = Payments.update_payment(payment, update_attrs)
+      assert payment.total == 3
     end
 
     test "update_payment/2 with invalid data returns error changeset" do

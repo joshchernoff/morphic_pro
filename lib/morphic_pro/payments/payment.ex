@@ -5,7 +5,7 @@ defmodule MorphicPro.Payments.Payment do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "payments" do
-
+    field :total, :integer
     field :for_user_id, :binary_id
     field :for_invoice_id, :binary_id
 
@@ -15,7 +15,7 @@ defmodule MorphicPro.Payments.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:total])
+    |> validate_required([:total])
   end
 end

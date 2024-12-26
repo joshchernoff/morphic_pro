@@ -14,11 +14,17 @@ if Application.get_env(:morphic_pro, :env) == :dev do
   MorphicPro.Users.User
   |> MorphicPro.Repo.delete_all()
 
-  MorphicPro.Users.register_user(%{email: "asdf@asdf.com", password: "asdfasdfasdfasdf"})
+  MorphicPro.Users.register_user(%{email: "admin@asdf.com", password: "asdfasdfasdfasdf"})
   |> case do
     {:ok, user} -> user
     _ -> nil
   end
   |> MorphicPro.Users.change_user_admin(%{admin: true})
   |> MorphicPro.Repo.update()
+
+  MorphicPro.Users.register_user(%{email: "user@asdf.com", password: "asdfasdfasdfasdf"})
+  |> case do
+    {:ok, user} -> user
+    _ -> nil
+  end
 end

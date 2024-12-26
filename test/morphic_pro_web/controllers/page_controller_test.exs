@@ -3,6 +3,6 @@ defmodule MorphicProWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "hello world"
+    assert html_response(conn, 200) =~ "HOME"
   end
 end

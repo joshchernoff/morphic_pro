@@ -17,11 +17,11 @@ defmodule MorphicProWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", MorphicProWeb do
-    pipe_through :browser
+  # scope "/", MorphicProWeb do
+  #   pipe_through :browser
 
-    get "/", PageController, :home
-  end
+  #   get "/", PageController, :home
+  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", MorphicProWeb do
@@ -66,6 +66,11 @@ defmodule MorphicProWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    live_session :admin,
+      on_mount: [{MorphicProWeb.UserAuth, :ensure_admin}] do
+      live "/admin", AdminLive.Dashboard, :dashboard
+    end
   end
 
   scope "/", MorphicProWeb do
@@ -76,5 +81,10 @@ defmodule MorphicProWeb.Router do
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
+
+    live_session :current_user,
+      on_mount: [{MorphicProWeb.UserAuth, :mount_current_user}] do
+      live "/", PageLive.Home, :home
+    end
   end
 end

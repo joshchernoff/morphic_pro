@@ -40,4 +40,31 @@ defmodule MorphicProWeb.Layouts do
     </div>
     """
   end
+
+  attr :current_user, :any, default: nil
+  slot :inner_block, required: true
+
+  def admin_layout(assigns) do
+    ~H"""
+    <div>
+      <nav>
+        <ul>
+          <li>ADMIN Page</li>
+        </ul>
+
+        <ul :if={@current_user}>
+          <li>{@current_user.email}</li>
+          <li><a href={~p"/users/settings"}>Settings</a></li>
+          <li><a href={~p"/users/log_out"}>Log out</a></li>
+        </ul>
+
+        <ul :if={!@current_user}>
+          <li><a href={~p"/users/register"}>Register</a></li>
+          <li><a href={~p"/users/log_in"}>Log in</a></li>
+        </ul>
+      </nav>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
 end

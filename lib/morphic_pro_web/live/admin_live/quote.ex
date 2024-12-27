@@ -1,4 +1,4 @@
-defmodule MorphicProWeb.AdminLive.Dashboard do
+defmodule MorphicProWeb.AdminLive.Quote do
   use MorphicProWeb, :live_view
   import MorphicProWeb.Layouts, only: [admin_layout: 1]
 

@@ -1,4 +1,4 @@
-defmodule MorphicProWeb.AdminLive.Dashboard do
+defmodule MorphicProWeb.AdminLive.Task do
   use MorphicProWeb, :live_view
   import MorphicProWeb.Layouts, only: [admin_layout: 1]
 

@@ -48,9 +48,49 @@ defmodule MorphicProWeb.Router do
 
     live_session :admin,
       on_mount: [{MorphicProWeb.UserAuth, :ensure_admin}] do
-      live "/admin/users/:id/edit", AdminLive.Users, :edit
-      live "/admin/users/:id", AdminLive.Users, :show
-      live "/admin/users", AdminLive.Users, :index
+      live "/admin/comments/:id/edit", AdminLive.Comment, :edit
+      live "/admin/comments/:id", AdminLive.Comment, :show
+      live "/admin/comments", AdminLive.Comment, :index
+
+      live "/admin/invoices/:id/edit", AdminLive.Invoice, :edit
+      live "/admin/invoices/:id", AdminLive.Invoice, :show
+      live "/admin/invoices", AdminLive.Invoice, :index
+
+      live "/admin/messages/:id/edit", AdminLive.Message, :edit
+      live "/admin/messages/:id", AdminLive.Message, :show
+      live "/admin/messages", AdminLive.Message, :index
+
+      live "/admin/orgs/:id/edit", AdminLive.Organization, :edit
+      live "/admin/orgs/:id", AdminLive.Organization, :show
+      live "/admin/orgs", AdminLive.Organization, :index
+
+      live "/admin/payments/:id/edit", AdminLive.Payment, :edit
+      live "/admin/payments/:id", AdminLive.Payment, :show
+      live "/admin/payments", AdminLive.Payment, :index
+
+      live "/admin/posts/:id/edit", AdminLive.Post, :edit
+      live "/admin/posts/:id", AdminLive.Post, :show
+      live "/admin/posts", AdminLive.Post, :index
+
+      live "/admin/projects/:id/edit", AdminLive.Project, :edit
+      live "/admin/projects/:id", AdminLive.Project, :show
+      live "/admin/projects", AdminLive.Project, :index
+
+      live "/admin/quotes/:id/edit", AdminLive.Quote, :edit
+      live "/admin/quotes/:id", AdminLive.Quote, :show
+      live "/admin/quotes", AdminLive.Quote, :index
+
+      live "/admin/rfp/:id/edit", AdminLive.RequestForProposal, :edit
+      live "/admin/rfp/:id", AdminLive.RequestForProposal, :show
+      live "/admin/rfp", AdminLive.RequestForProposal, :index
+
+      live "/admin/tasks/:id/edit", AdminLive.Task, :edit
+      live "/admin/tasks/:id", AdminLive.Task, :show
+      live "/admin/tasks", AdminLive.Task, :index
+
+      live "/admin/users/:id/edit", AdminLive.User, :edit
+      live "/admin/users/:id", AdminLive.User, :show
+      live "/admin/users", AdminLive.User, :index
 
       live "/admin", AdminLive.Dashboard, :dashboard
     end

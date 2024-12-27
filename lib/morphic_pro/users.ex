@@ -8,6 +8,19 @@ defmodule MorphicPro.Users do
 
   alias MorphicPro.Users.{User, UserToken, UserNotifier}
 
+  @doc """
+  Returns the list of users.
+
+  ## Examples
+
+      iex> list_users()
+      [%User{}, ...]
+
+  """
+  def list_users do
+    Repo.all(User)
+  end
+
   ## Database getters
 
   @doc """

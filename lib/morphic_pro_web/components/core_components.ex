@@ -19,6 +19,110 @@ defmodule MorphicProWeb.CoreComponents do
 
   alias Phoenix.LiveView.JS
 
+  attr :paths, :list
+  attr :live_action, :any
+
+  def breadcrumb(assigns) do
+    ~H"""
+    <nav
+      class="sticky top-16 min-w-0 flex border-b border-zinc-800 bg-zinc-900 z-10"
+      aria-label="Breadcrumb"
+    >
+      <ol
+        role="list"
+        class="min-w-0 flex w-full max-w-screen-xl space-x-0 sm:space-x-4 px-4 sm:px-6 lg:px-8"
+      >
+        <li class="hidden sm:flex min-w-0 ">
+          <div class="flex items-center">
+            <.link navigate="/admin" class="text-sm font-medium text-zinc-500 hover:text-zinc-700">
+              Admin
+            </.link>
+          </div>
+        </li>
+        <li class="min-w-0 flex">
+          <div class="flex items-center">
+            <svg
+              class="hidden sm:inline h-full w-6 shrink-0 text-zinc-800"
+              viewBox="0 0 24 44"
+              preserveAspectRatio="none"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+            </svg>
+            <.link
+              patch="/admin/users"
+              class="ml-0 sm:ml-4 text-sm font-medium text-zinc-500 hover:text-zinc-700"
+            >
+              Users
+            </.link>
+          </div>
+        </li>
+        <li :if={@live_action == :show} class="min-w-0 flex">
+          <div class="flex items-center truncate">
+            <svg
+              class="h-full w-6 shrink-0 text-zinc-800"
+              viewBox="0 0 24 44"
+              preserveAspectRatio="none"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+            </svg>
+            <span
+              href="#"
+              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 min-w-0 truncate"
+              aria-current="page"
+            >
+              OOOO
+            </span>
+          </div>
+        </li>
+        <li :if={@live_action == :show} class="min-w-0  flex">
+          <div class="flex items-center">
+            <svg
+              class="h-full w-6 shrink-0 text-zinc-800"
+              viewBox="0 0 24 44"
+              preserveAspectRatio="none"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+            </svg>
+            <span
+              href="#"
+              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+              aria-current="page"
+            >
+              Edit
+            </span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+    """
+  end
+
+  def search_form(assigns) do
+    ~H"""
+    <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 items-center">
+      <form class="grid flex-1 grid-cols-1" action="#" method="GET">
+        <input
+          type="search"
+          name="search"
+          aria-label="Search"
+          class="border-0 col-start-1 row-start-1 block size-full bg-transparent pl-8 text-base text-white outline-none ring-0 focus:ring-0  placeholder:text-zinc-500 sm:text-sm/6 "
+          placeholder="Search"
+        />
+        <.icon
+          name="hero-magnifying-glass"
+          class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-zinc-500 w-6"
+        />
+      </form>
+    </div>
+    """
+  end
+
   @doc """
   Renders flash notices.
 

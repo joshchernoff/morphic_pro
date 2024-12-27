@@ -18,75 +18,78 @@ defmodule MorphicProWeb.Layouts do
 
   def layout(assigns) do
     ~H"""
-    <nav
-      id="navbar"
-      class="fixed w-full bg-white/80 backdrop-blur-md shadow-md transition-transform duration-300 transform-gpu z-50"
-    >
-      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <!-- Logo -->
-        <a href="/" class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
-          MORPHIC.PRO
-        </a>
+    <div class="bg-zinc-900">
+      <nav
+        id="navbar"
+        class="fixed w-full bg-zinc-900 backdrop-blur-md shadow-md transition-transform duration-300 transform-gpu z-50"
+      >
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+          <!-- Logo -->
+          <a href="/" class="text-2xl font-bold text-zinc-900 hover:text-blue-600 transition-colors">
+            MORPHIC.PRO
+          </a>
 
-        <ul class="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <li><a href="/about" class="hover:text-blue-500 transition-colors">About</a></li>
-          <li><a href="/services" class="hover:text-blue-500 transition-colors">Services</a></li>
-          <li><a href="/contact" class="hover:text-blue-500 transition-colors">Contact</a></li>
-        </ul>
+          <ul class="hidden md:flex space-x-6 text-zinc-700 font-medium">
+            <li><a href="/about" class="hover:text-blue-500 transition-colors">About</a></li>
+            <li><a href="/services" class="hover:text-blue-500 transition-colors">Services</a></li>
+            <li><a href="/contact" class="hover:text-blue-500 transition-colors">Contact</a></li>
+          </ul>
 
-        <ul :if={@current_user} class="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <li>{@current_user.email}</li>
-          <li><a href={~p"/users/settings"}>Settings</a></li>
-          <li><a href={~p"/users/log_out"}>Log out</a></li>
-        </ul>
+          <ul :if={@current_user} class="hidden md:flex space-x-6 text-zinc-700 font-medium">
+            <li>{@current_user.email}</li>
+            <li><a href={~p"/users/settings"}>Settings</a></li>
+            <li><a href={~p"/users/log_out"}>Log out</a></li>
+          </ul>
 
-        <ul :if={!@current_user} class="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <li><a href={~p"/users/register"}>Register</a></li>
-          <li><a href={~p"/users/log_in"}>Log in</a></li>
-        </ul>
+          <ul :if={!@current_user} class="hidden md:flex space-x-6 text-zinc-700 font-medium">
+            <li><a href={~p"/users/register"}>Register</a></li>
+            <li><a href={~p"/users/log_in"}>Log in</a></li>
+          </ul>
 
-        <button id="menu-btn" class="md:hidden flex items-center text-gray-700">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
+          <button id="menu-btn" class="md:hidden flex items-center text-zinc-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden bg-zinc-900 md:hidden shadow-md">
+          <ul class="space-y-4 p-4 text-zinc-700 font-medium">
+            <li><a href="/about" class="block hover:text-blue-500 transition-colors">About</a></li>
+            <li>
+              <a href="/services" class="block hover:text-blue-500 transition-colors">Services</a>
+            </li>
+            <li>
+              <a href="/contact" class="block hover:text-blue-500 transition-colors">Contact</a>
+            </li>
+          </ul>
+
+          <ul :if={@current_user} class="space-y-4 p-4 text-zinc-700 font-medium">
+            <li>{@current_user.email}</li>
+            <li><a href={~p"/users/settings"}>Settings</a></li>
+            <li><a href={~p"/users/log_out"}>Log out</a></li>
+          </ul>
+
+          <ul :if={!@current_user} class="space-y-4 p-4 text-zinc-700 font-medium">
+            <li><a href={~p"/users/register"}>Register</a></li>
+            <li><a href={~p"/users/log_in"}>Log in</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="pt-20">
+        <.flash_group flash={@flash} />
+
+        {render_slot(@inner_block)}
       </div>
-
-      <div id="mobile-menu" class="hidden bg-white md:hidden shadow-md">
-        <ul class="space-y-4 p-4 text-gray-700 font-medium">
-          <li><a href="/about" class="block hover:text-blue-500 transition-colors">About</a></li>
-          <li>
-            <a href="/services" class="block hover:text-blue-500 transition-colors">Services</a>
-          </li>
-          <li><a href="/contact" class="block hover:text-blue-500 transition-colors">Contact</a></li>
-        </ul>
-
-        <ul :if={@current_user} class="space-y-4 p-4 text-gray-700 font-medium">
-          <li>{@current_user.email}</li>
-          <li><a href={~p"/users/settings"}>Settings</a></li>
-          <li><a href={~p"/users/log_out"}>Log out</a></li>
-        </ul>
-
-        <ul :if={!@current_user} class="space-y-4 p-4 text-gray-700 font-medium">
-          <li><a href={~p"/users/register"}>Register</a></li>
-          <li><a href={~p"/users/log_in"}>Log in</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="pt-20">
-      <.flash_group flash={@flash} />
-
-      {render_slot(@inner_block)}
     </div>
-
     <script>
       let prevScrollPos = window.pageYOffset;
       const navbar = document.getElementById("navbar");
@@ -118,12 +121,12 @@ defmodule MorphicProWeb.Layouts do
 
   def admin_layout(assigns) do
     ~H"""
-    <div>
+    <div class="bg-zinc-900">
       <div id="admin-mobile-sidebar" class="relative z-50 xl:hidden" role="dialog" aria-modal="true">
         <div
           id="admin-mobile-sidebar-backdrop"
           phx-click={hide_admin_menu()}
-          class="fixed inset-0 bg-gray-900/80 cursor-pointer"
+          class="fixed inset-0 bg-zinc-900/80 cursor-pointer"
           style="display: none;"
           aria-hidden="true"
         >
@@ -166,8 +169,8 @@ defmodule MorphicProWeb.Layouts do
 
   def desktop_sidebar(assigns) do
     ~H"""
-    <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
-      <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 ring-1 ring-white/5">
+    <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-60 xl:flex-col">
+      <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-zinc-900/95 px-6 ring-1 ring-white/5">
         <div class="flex h-16 shrink-0 items-center">
           <.logo />
         </div>
@@ -193,7 +196,7 @@ defmodule MorphicProWeb.Layouts do
 
   def mobile_sidebar(assigns) do
     ~H"""
-    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 ring-1 ring-white/10">
+    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-zinc-900 px-6 ring-1 ring-white/10">
       <div class="flex h-16 shrink-0 items-center">
         <.logo />
       </div>
@@ -232,10 +235,10 @@ defmodule MorphicProWeb.Layouts do
   def desktop_menu_item(assigns) do
     ~H"""
     <li>
-      <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
+      <!-- Current: "bg-zinc-800 text-white", Default: "text-zinc-400 hover:text-white hover:bg-zinc-800" -->
       <.link
         navigate={@link.path}
-        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
+        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white"
       >
         <.icon name={@link.icon} class="w-6 h-6" /> {@link.name}
       </.link>
@@ -248,10 +251,10 @@ defmodule MorphicProWeb.Layouts do
   def mobile_menu_item(assigns) do
     ~H"""
     <li>
-      <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
+      <!-- Current: "bg-zinc-800 text-white", Default: "text-zinc-400 hover:text-white hover:bg-zinc-800" -->
       <a
         href={@link.path}
-        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
+        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white"
       >
         <.icon name={@link.icon} class="w-6 h-6" /> {@link.name}
       </a>
@@ -274,10 +277,10 @@ defmodule MorphicProWeb.Layouts do
     <li class="-mx-6 mt-auto">
       <a
         href="/users/settings"
-        class="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-gray-800"
+        class="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-zinc-800"
       >
         <img
-          class="size-8 rounded-full bg-gray-800"
+          class="size-8 rounded-full bg-zinc-800"
           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
           alt=""
         />
@@ -329,5 +332,18 @@ defmodule MorphicProWeb.Layouts do
         {"transition-all transform ease-in duration-300", "-translate-x-0", "-translate-x-full"},
       to: "#admin-mobile-sidebar-menu"
     )
+  end
+
+  def mobile_menu_open(assigns) do
+    ~H"""
+    <button
+      phx-click={MorphicProWeb.Layouts.show_admin_menu()}
+      type="button"
+      class="-m-2.5 p-2.5 text-white xl:hidden"
+    >
+      <span class="sr-only">Open sidebar</span>
+      <.icon name="hero-bars-3" class="w-6" />
+    </button>
+    """
   end
 end

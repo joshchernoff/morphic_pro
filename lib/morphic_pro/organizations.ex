@@ -1,4 +1,4 @@
-defmodule MorphicPro.Organization do
+defmodule MorphicPro.Organizations do
   @moduledoc """
   The Organizations context.
   """

@@ -1,0 +1,231 @@
+<.admin_layout current_user={@current_user} uri={@uri}>
+  <div class="xl:pl-60">
+    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-white/5 bg-zinc-900 px-4 shadow-sm sm:px-6 lg:px-8">
+      <.mobile_menu_open />
+      <.breadcrumb>
+        <:step_1 path={~p"/admin"}>Admin</:step_1>
+        <:step_2 path={~p"/admin/users"}>Users</:step_2>
+        <:step_2 path={~p"/admin/users/#{@user}"}>{@user.email}</:step_2>
+      </.breadcrumb>
+    </div>
+
+    <main class="lg:pr-96 relative flex">
+      <div class="flex w-full">
+        <div class="px-8 py-6 border-r border-zinc-800 h-full">
+          <nav class="flex flex-1 flex-col" aria-label="Sidebar">
+            <ul role="list" class="-mx-2 space-y-1">
+              <li>
+                <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-zinc-200 hover:bg-gray-50" -->
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md border border-1 border-zinc-700 p-2 pl-3 text-sm/6 font-semibold text-zinc-100"
+                >
+                  Account
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Organizations
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  RFPs
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Quotes
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Invoices
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Payments
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Messages
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
+                >
+                  Comments
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="flex-1">
+          <.content_list>
+            <:row key="Admin">
+              {@user.admin}
+            </:row>
+            <:row key="Email address">
+              {@user.email}
+            </:row>
+            <:row key="User Created On">
+              {@user.inserted_at}
+            </:row>
+            <:row key="User Updated On">
+              {@user.updated_at}
+            </:row>
+          </.content_list>
+        </div>
+      </div>
+    </main>
+
+    <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
+      <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
+          <.icon name="hero-user-solid" class="w-6 h-6 mr-2" /> Actions
+        </h2>
+      </header>
+      <div class="px-4 sm:px-6 lg:px-8 py-8 gap-y-4 flex flex-col">
+        <.link :if={@user} patch={~p"/admin/users/#{@user}/edit"}>
+          <button
+            type="button"
+            class="rounded-md bg-zinc-900 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            Edit User
+          </button>
+        </.link>
+        <.link :if={@user} patch={~p"/admin/users/#{@user}/edit"}>
+          <button
+            type="button"
+            class="rounded-md bg-zinc-900 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            Ban User
+          </button>
+        </.link>
+        <.link :if={@user} patch={~p"/admin/users/#{@user}/edit"}>
+          <button
+            type="button"
+            class="rounded-md bg-zinc-900 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            Promote User
+          </button>
+        </.link>
+      </div>
+      <header class="flex items-center justify-between border-t border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
+          <.icon name="hero-list-bullet" class="w-6 h-6 mr-2" /> User's Feed
+        </h2>
+      </header>
+      <div class="px-4 sm:px-6 lg:px-8 py-8 gap-y-4 flex flex-col border-t border-zinc-800 py-4 mt-2 ">
+        <div class="flow-root">
+          <ul role="list" class="-mb-8">
+            <li>
+              <div class="relative pb-8">
+                <span
+                  class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-zinc-800"
+                  aria-hidden="true"
+                >
+                </span>
+                <div class="relative flex space-x-3">
+                  <div>
+                    <span class="flex size-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-zinc-800">
+                      <.icon name="hero-check" class="h-4 w-4" />
+                    </span>
+                  </div>
+                  <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                    <div>
+                      <p class="text-sm text-zinc-500">
+                        User Account <a href="#" class="font-medium text-zinc-100">Confirmed</a>
+                      </p>
+                    </div>
+                    <div class="whitespace-nowrap text-right text-sm text-zinc-500">
+                      <time datetime="2020-10-04">Oct 4</time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="relative pb-8">
+                <span
+                  class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-zinc-800"
+                  aria-hidden="true"
+                >
+                </span>
+                <div class="relative flex space-x-3">
+                  <div>
+                    <span class="flex size-8 items-center justify-center rounded-full bg-zinc-600 ring-8 ring-zinc-800">
+                      <.icon name="hero-paper-airplane-solid" class="w-4 h-4" />
+                    </span>
+                  </div>
+                  <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                    <div>
+                      <p class="text-sm text-zinc-500">
+                        Sent User <a href="#" class="font-medium text-zinc-100">Invitation</a>
+                      </p>
+                    </div>
+                    <div class="whitespace-nowrap text-right text-sm text-zinc-500">
+                      <time datetime="2020-09-22">Sep 22</time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="relative pb-8">
+                <div class="relative flex space-x-3">
+                  <div>
+                    <span class="flex size-8 items-center justify-center rounded-full bg-zinc-600 ring-8 ring-zinc-800">
+                      <.icon name="hero-user-solid" class="w-5 h-5" />
+                    </span>
+                  </div>
+                  <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                    <div>
+                      <p class="text-sm text-zinc-500">
+                        Created <a href="#" class="font-medium text-zinc-100">User</a>
+                      </p>
+                    </div>
+                    <div class="whitespace-nowrap text-right text-sm text-zinc-500">
+                      <time datetime="2020-09-20">Sep 20</time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+</.admin_layout>

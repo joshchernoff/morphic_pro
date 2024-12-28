@@ -3,6 +3,6 @@ defmodule MorphicProWeb.AdminLive.Dashboard do
   import MorphicProWeb.Layouts, only: [admin_layout: 1]
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, socket |> assign(:page_title, "Admin - Morphic.Pro")}
   end
 end

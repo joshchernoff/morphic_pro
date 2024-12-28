@@ -26,7 +26,7 @@ defmodule MorphicProWeb.Layouts do
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
           <!-- Logo -->
           <a href="/" class="text-2xl font-bold text-zinc-900 hover:text-blue-600 transition-colors">
-            MORPHIC.PRO
+            <.branding label="Morphic.Pro" path="/" />
           </a>
 
           <ul class="hidden md:flex space-x-6 text-zinc-700 font-medium">
@@ -37,6 +37,7 @@ defmodule MorphicProWeb.Layouts do
 
           <ul :if={@current_user} class="hidden md:flex space-x-6 text-zinc-700 font-medium">
             <li>{@current_user.email}</li>
+            <li :if={@current_user.admin}><a href={~p"/admin"}>Admin</a></li>
             <li><a href={~p"/users/settings"}>Settings</a></li>
             <li><a href={~p"/users/log_out"}>Log out</a></li>
           </ul>
@@ -73,6 +74,7 @@ defmodule MorphicProWeb.Layouts do
 
           <ul :if={@current_user} class="space-y-4 p-4 text-zinc-700 font-medium">
             <li>{@current_user.email}</li>
+            <li :if={@current_user.admin}><a href={~p"/admin"}>Admin</a></li>
             <li><a href={~p"/users/settings"}>Settings</a></li>
             <li><a href={~p"/users/log_out"}>Log out</a></li>
           </ul>
@@ -117,6 +119,7 @@ defmodule MorphicProWeb.Layouts do
   end
 
   attr :current_user, :any, default: nil
+  attr :uri, :string, default: ""
   slot :inner_block, required: true
 
   def admin_layout(assigns) do
@@ -145,7 +148,7 @@ defmodule MorphicProWeb.Layouts do
           </div>
         </div>
       </div>
-      <.desktop_sidebar current_user={@current_user} links={links()} />
+      <.desktop_sidebar current_user={@current_user} links={links()} uri={@uri} />
       {render_slot(@inner_block)}
     </div>
     """
@@ -153,19 +156,22 @@ defmodule MorphicProWeb.Layouts do
 
   def links() do
     [
-      %{name: "Projects", path: ~p"/admin/projects", icon: "hero-folder"},
-      %{name: "Tasks", path: ~p"/admin/tasks", icon: "hero-list-bullet"},
-      %{name: "RFPs", path: ~p"/admin/rfp", icon: "hero-document-magnifying-glass"},
-      %{name: "Quotes", path: ~p"/admin/quotes", icon: "hero-document-text"},
-      %{name: "Invoices", path: ~p"/admin/invoices", icon: "hero-document-check"},
-      %{name: "Payments", path: ~p"/admin/payments", icon: "hero-credit-card"},
-      %{name: "Orgs", path: ~p"/admin/orgs", icon: "hero-building-office"},
       %{name: "Users", path: ~p"/admin/users", icon: "hero-user"},
-      %{name: "Messages", path: ~p"/admin/messages", icon: "hero-envelope"},
-      %{name: "Posts", path: ~p"/admin/posts", icon: "hero-book-open"},
-      %{name: "Comments", path: ~p"/admin/comments", icon: "hero-chat-bubble-left"}
+      %{name: "Orgs", path: ~p"/admin/orgs", icon: "hero-building-office"}
+      # %{name: "Tasks", path: ~p"/admin/tasks", icon: "hero-list-bullet"},
+      # %{name: "RFPs", path: ~p"/admin/rfp", icon: "hero-document-magnifying-glass"},
+      # %{name: "Quotes", path: ~p"/admin/quotes", icon: "hero-document-text"},
+      # %{name: "Invoices", path: ~p"/admin/invoices", icon: "hero-document-check"},
+      # %{name: "Payments", path: ~p"/admin/payments", icon: "hero-credit-card"},
+      # %{name: "Projects", path: ~p"/admin/projects", icon: "hero-folder"}
+
+      # %{name: "Messages", path: ~p"/admin/messages", icon: "hero-envelope"},
+      # %{name: "Posts", path: ~p"/admin/posts", icon: "hero-book-open"},
+      # %{name: "Comments", path: ~p"/admin/comments", icon: "hero-chat-bubble-left"}
     ]
   end
+
+  attr :uri, :string, default: ""
 
   def desktop_sidebar(assigns) do
     ~H"""
@@ -179,7 +185,7 @@ defmodule MorphicProWeb.Layouts do
             <li>
               <ul role="list" class="-mx-2 space-y-1">
                 <%= for link <- @links do %>
-                  <.desktop_menu_item link={link} />
+                  <.desktop_menu_item link={link} uri={@uri} />
                 <% end %>
               </ul>
             </li>
@@ -193,6 +199,7 @@ defmodule MorphicProWeb.Layouts do
   end
 
   attr :links, :list, required: true
+  attr :current_user, :any
 
   def mobile_sidebar(assigns) do
     ~H"""
@@ -232,13 +239,23 @@ defmodule MorphicProWeb.Layouts do
     """
   end
 
+  attr :uri, :string
+
   def desktop_menu_item(assigns) do
+    dbg([assigns.uri, assigns.link.path])
+    match = match_uri(assigns.uri, assigns.link.path) |> dbg()
+    assigns = assign(assigns, :match, match)
+
     ~H"""
     <li>
       <!-- Current: "bg-zinc-800 text-white", Default: "text-zinc-400 hover:text-white hover:bg-zinc-800" -->
       <.link
         navigate={@link.path}
-        class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-zinc-400 hover:bg-zinc-800 hover:text-white"
+        class={[
+          "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
+          @match && "bg-zinc-800 text-white",
+          !@match && "text-zinc-400 hover:text-white hover:bg-zinc-800"
+        ]}
       >
         <.icon name={@link.icon} class="w-6 h-6" /> {@link.name}
       </.link>
@@ -264,11 +281,7 @@ defmodule MorphicProWeb.Layouts do
 
   def logo(assigns) do
     ~H"""
-    <img
-      class="h-8 w-auto"
-      src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
-      alt="Morphic.Pro"
-    />
+    <.branding label="Morphic.Pro" path="/admin" />
     """
   end
 
@@ -345,5 +358,10 @@ defmodule MorphicProWeb.Layouts do
       <.icon name="hero-bars-3" class="w-6" />
     </button>
     """
+  end
+
+  def match_uri(uri, pattern) do
+    regex = ~r/#{Regex.escape(pattern)}/
+    Regex.match?(regex, uri)
   end
 end

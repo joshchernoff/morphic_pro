@@ -8,6 +8,10 @@ defmodule MorphicPro.Users do
 
   alias MorphicPro.Users.{User, UserToken, UserNotifier}
 
+  def list_users(_opt) do
+    Repo.all(User)
+  end
+
   @doc """
   Returns the list of users.
 

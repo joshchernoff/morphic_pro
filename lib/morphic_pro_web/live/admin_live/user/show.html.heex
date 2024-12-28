@@ -5,7 +5,7 @@
       <.breadcrumb>
         <:step_1 path={~p"/admin"}>Admin</:step_1>
         <:step_2 path={~p"/admin/users"}>Users</:step_2>
-        <:step_2 path={~p"/admin/users/#{@user}"}>{@user.email}</:step_2>
+        <:step_3 path={~p"/admin/users/#{@user}"}>{@user.email}</:step_3>
       </.breadcrumb>
     </div>
 
@@ -110,7 +110,7 @@
     </main>
 
     <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
-      <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-[1.1rem] lg:px-8">
         <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
           <.icon name="hero-user-solid" class="w-6 h-6 mr-2" /> Actions
         </h2>

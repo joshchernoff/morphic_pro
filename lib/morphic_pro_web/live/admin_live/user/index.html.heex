@@ -11,7 +11,7 @@
 
     <main class="lg:pr-96 relative">
       <div class="sticky top-16 z-40 bg-zinc-900">
-        <.search_form />
+        <.search_form value={@search} />
       </div>
       <ul id="users" role="list" class="divide-y divide-zinc-800" phx-update="stream">
         <li
@@ -70,7 +70,10 @@
     </main>
 
     <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
-      <form class="mt-6 sm:flex sm:max-w-md px-8 pb-6 border-b border-zinc-800">
+      <form
+        class="mt-6 sm:flex sm:max-w-md px-8 pb-6 border-b border-zinc-800"
+        style="display: none;"
+      >
         <label for="email-address" class="sr-only">Email address</label>
         <input
           type="email"
@@ -90,7 +93,7 @@
           </button>
         </div>
       </form>
-      <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-[1.1rem] lg:px-8">
         <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
           <.icon name="hero-funnel" class="w-6 h-6 mr-2" /> Filter / Sorting
         </h2>

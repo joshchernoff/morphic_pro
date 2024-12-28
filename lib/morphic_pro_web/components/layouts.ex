@@ -242,9 +242,7 @@ defmodule MorphicProWeb.Layouts do
   attr :uri, :string
 
   def desktop_menu_item(assigns) do
-    dbg([assigns.uri, assigns.link.path])
-    match = match_uri(assigns.uri, assigns.link.path) |> dbg()
-    assigns = assign(assigns, :match, match)
+    assigns = assign(assigns, :match, match_uri(assigns.uri, assigns.link.path))
 
     ~H"""
     <li>

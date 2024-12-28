@@ -94,18 +94,10 @@ defmodule MorphicProWeb.CoreComponents do
     <!------------------------------------->
         <li :for={step_2 <- @step_2} class="min-w-0 flex">
           <div class="flex items-center">
-            <svg
-              class="hidden sm:inline h-full w-6 shrink-0 text-zinc-800"
-              viewBox="0 0 24 44"
-              preserveAspectRatio="none"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-            </svg>
+            <.icon name="hero-chevron-double-right" class="w-6 h-6 bg-zinc-800" />
             <.link
               patch={step_2.path}
-              class="ml-0 sm:ml-4 text-sm font-medium text-zinc-500 hover:text-zinc-700"
+              class="ml-0 sm:ml-4 text-sm font-medium text-zinc-400 hover:text-zinc-200"
             >
               {render_slot(step_2)}
             </.link>
@@ -115,18 +107,10 @@ defmodule MorphicProWeb.CoreComponents do
     <!------------------------------------->
         <li :for={step_3 <- @step_3} class="min-w-0 flex">
           <div class="flex items-center truncate">
-            <svg
-              class="h-full w-6 shrink-0 text-zinc-800"
-              viewBox="0 0 24 44"
-              preserveAspectRatio="none"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-            </svg>
+            <.icon name="hero-chevron-double-right" class="w-6 h-6 bg-zinc-800" />
             <.link
               navigate={step_3.path}
-              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 min-w-0 truncate"
+              class="ml-4 text-sm font-medium text-zinc-300 hover:text-zinc-100 min-w-0 truncate"
               aria-current="page"
             >
               {render_slot(step_3)}
@@ -137,17 +121,10 @@ defmodule MorphicProWeb.CoreComponents do
     <!------------------------------------->
         <li :for={step_4 <- @step_4} class="min-w-0  flex">
           <div class="flex items-center">
-            <svg
-              class="h-full w-6 shrink-0 text-zinc-800"
-              viewBox="0 0 24 44"
-              preserveAspectRatio="none"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-            </svg>
+            <.icon name="hero-chevron-double-right" class="w-6 h-6 bg-zinc-800" />
+
             <span
-              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+              class="ml-4 text-sm font-medium text-zinc-100 hover:text-zinc-100"
               aria-current="page"
             >
               {render_slot(step_4)}
@@ -159,21 +136,39 @@ defmodule MorphicProWeb.CoreComponents do
     """
   end
 
+  attr :value, :string, default: nil
+
   def search_form(assigns) do
     ~H"""
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 items-center border-b border-zinc-800 pl-4 sm:pl-8 h-16">
-      <form class="grid flex-1 grid-cols-1" action="#" method="GET">
+      <form
+        id="search-form"
+        class="grid flex-1 grid-cols-1 relative"
+        action="#"
+        method="GET"
+        phx-change="search"
+      >
         <input
           type="search"
           name="search"
           aria-label="Search"
-          class="border-0 col-start-1 row-start-1 block size-full bg-transparent pl-8 text-base text-white outline-none ring-0 focus:ring-0  placeholder:text-zinc-500 sm:text-sm/6 "
+          class="border-0 col-start-1 row-start-1 block size-full bg-transparent pl-8 text-base text-white outline-none ring-0 focus:ring-0 placeholder:text-zinc-500 sm:text-sm/6"
           placeholder="Search"
+          phx-debounce="500"
+          value={@value}
         />
         <.icon
           name="hero-magnifying-glass"
-          class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-zinc-500 w-6"
+          class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-zinc-500 w-6 absolute left-2"
         />
+        <span
+          :if={@value}
+          phx-click="clear-search"
+          phx-target="#search-form"
+          class="cursor-pointer col-start-1 row-start-1 self-center absolute right-2"
+        >
+          <.icon name="hero-x-circle-solid" class="text-zinc-500 w-6 bg-red-300" />
+        </span>
       </form>
     </div>
     """
@@ -186,8 +181,8 @@ defmodule MorphicProWeb.CoreComponents do
   def content_list(assigns) do
     ~H"""
     <dl class="w-full divide-y divide-zinc-800">
-      <div :for={row <- @row} class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm/6 font-medium text-zinc-100 pl-6">{row.key}</dt>
+      <div :for={row <- @row} class="px-4 py-[1.1rem] sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/7 font-medium text-zinc-100 pl-6">{row.key}</dt>
         <dd class="mt-1 text-sm/6 text-zinc-400 sm:col-span-2 sm:mt-0 ">{render_slot(row)}</dd>
       </div>
     </dl>

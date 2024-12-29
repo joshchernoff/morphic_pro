@@ -98,7 +98,12 @@
         <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
           <.icon name="hero-funnel" class="w-6 h-6 mr-2" /> Filter / Sorting
         </h2>
-        <span phx-click="reset-filter" class="text-sm/6 font-semibold text-indigo-400">Rest</span>
+        <span
+          phx-click="reset-filter"
+          class="cursor-pointer text-sm/6 font-semibold text-indigo-400"
+        >
+          Rest
+        </span>
       </header>
       <div class="px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
         <form phx_submit="filter" class="flex flex-col gap-y-4" phx-change="filter">
@@ -123,6 +128,12 @@
                   value="updated_at"
                 >
                   Updated On
+                </option>
+                <option
+                  selected={@search_params |> Map.get(:order_field, "") == "email"}
+                  value="email"
+                >
+                  Email
                 </option>
               </select>
             </div>
@@ -200,35 +211,6 @@
                   value="false"
                 >
                   Not Confirmed
-                </option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label for="filter-orgs" class="block text-sm/6 font-medium text-zinc-100">
-              Filter by Organization
-            </label>
-            <div class="mt-2 grid grid-cols-1">
-              <select
-                id="filter-orgs"
-                name="search[organization]"
-                class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-zinc-900 py-1.5 pl-3 pr-8 text-base text-zinc-100 outline outline-1 outline-zinc-800 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-              >
-                <option value="" selected={@search_params |> Map.get(:organization, "") == ""}>
-                  All
-                </option>
-                <option
-                  value="some_id1"
-                  selected={@search_params |> Map.get(:organization, nil) == "some_id1"}
-                >
-                  Org1
-                </option>
-                <option
-                  value="some_id2"
-                  selected={@search_params |> Map.get(:organization, "") == "some_id2"}
-                >
-                  Org2
                 </option>
               </select>
             </div>

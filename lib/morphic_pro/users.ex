@@ -8,6 +8,28 @@ defmodule MorphicPro.Users do
 
   alias MorphicPro.Users.{User, UserToken, UserNotifier}
 
+  @doc """
+  Returns the list of users.
+
+  ## Examples
+
+      iex> list_users()
+      [%User{}, ...]
+
+  """
+  def list_users do
+    from(u in User, order_by: [desc: u.updated_at])
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of users based on params
+
+  ## Examples
+      iex> list_users(%{query: "foo"})
+      [%User{}, ...]
+
+  """
   def list_users(params) do
     from(u in User)
     |> where(^build_where(params))
@@ -16,8 +38,6 @@ defmodule MorphicPro.Users do
   end
 
   defp build_where(params) do
-    IO.inspect(params)
-
     Enum.reduce(params, dynamic(true), fn
       {:query, value}, dynamic ->
         dynamic([u], ^dynamic and ilike(u.email, ^"%#{value}%"))
@@ -34,17 +54,6 @@ defmodule MorphicPro.Users do
       {:confirmed, "false"}, dynamic ->
         dynamic([u], ^dynamic and is_nil(u.confirmed_at))
 
-      # {:order_field, _}, dynamic ->
-      #   dynamic
-
-      # {:order_direction, _}, dynamnic ->
-      #   dynamnic
-      # [:admin, "true"], dynamic ->
-      #   dynamic([u], ^dynamic and u.admin == true)
-
-      # [:admin, "false"], dynamic ->
-      #   dynamic([u], ^dynamic and u.admin == false)
-
       {_, _}, dynamic ->
         dynamic
     end)
@@ -56,19 +65,6 @@ defmodule MorphicPro.Users do
   end
 
   defp build_order(_), do: []
-
-  @doc """
-  Returns the list of users.
-
-  ## Examples
-
-      iex> list_users()
-      [%User{}, ...]
-
-  """
-  def list_users do
-    Repo.all(User)
-  end
 
   ## Database getters
 

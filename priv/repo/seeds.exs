@@ -19,12 +19,14 @@ if Application.get_env(:morphic_pro, :env) == :dev do
     {:ok, user} -> user
     _ -> nil
   end
-  |> MorphicPro.Users.change_user_admin(%{admin: true})
-  |> MorphicPro.Repo.update()
+  |> MorphicPro.Users.change_user_admin(%{"admin" => true})
 
-  MorphicPro.Users.register_user(%{email: "user@asdf.com", password: "asdfasdfasdfasdf"})
-  |> case do
-    {:ok, user} -> user
-    _ -> nil
-  end
+  1..50
+  |> Enum.each(fn i ->
+    MorphicPro.Users.register_user(%{email: "user#{i}@asdf.com", password: "asdfasdfasdfasdf"})
+    |> case do
+      {:ok, user} -> user
+      _ -> nil
+    end
+  end)
 end

@@ -77,7 +77,7 @@ defmodule MorphicProWeb.CoreComponents do
   def breadcrumb(assigns) do
     ~H"""
     <nav class="flex" aria-label="Breadcrumb">
-      <ol role="list" class="min-w-0 flex w-full max-w-screen-xl space-x-0 sm:space-x-4">
+      <ol role="list" class="min-w-0 flex w-full max-w-screen-xl space-x-2 sm:space-x-4">
         
     <!------------------------------------->
         <li :for={step_1 <- @step_1} class="hidden sm:flex min-w-0 ">
@@ -92,9 +92,9 @@ defmodule MorphicProWeb.CoreComponents do
         </li>
         
     <!------------------------------------->
-        <li :for={step_2 <- @step_2} class="min-w-0 flex">
+        <li :for={step_2 <- @step_2} class={["min-w-0 flex"]}>
           <div class="flex items-center">
-            <.icon name="hero-chevron-double-right" class="w-6 h-6 bg-zinc-800" />
+            <.icon name="hero-chevron-double-right" class="hidden sm:inline w-6 h-6 bg-zinc-800" />
             <.link
               patch={step_2.path}
               class="ml-0 sm:ml-4 text-sm font-medium text-zinc-400 hover:text-zinc-200"
@@ -110,7 +110,7 @@ defmodule MorphicProWeb.CoreComponents do
             <.icon name="hero-chevron-double-right" class="w-6 h-6 bg-zinc-800" />
             <.link
               navigate={step_3.path}
-              class="ml-4 text-sm font-medium text-zinc-300 hover:text-zinc-100 min-w-0 truncate"
+              class="ml-2 sm:ml-4  text-sm font-medium text-zinc-300 hover:text-zinc-100 min-w-0 truncate"
               aria-current="page"
             >
               {render_slot(step_3)}
@@ -124,7 +124,7 @@ defmodule MorphicProWeb.CoreComponents do
             <.icon name="hero-chevron-double-right" class="w-6 h-6 bg-zinc-800" />
 
             <span
-              class="ml-4 text-sm font-medium text-zinc-100 hover:text-zinc-100"
+              class="ml-2 sm:ml-4 text-sm font-medium text-zinc-100 hover:text-zinc-100  min-w-0 truncate"
               aria-current="page"
             >
               {render_slot(step_4)}
@@ -184,10 +184,35 @@ defmodule MorphicProWeb.CoreComponents do
     ~H"""
     <dl class="w-full divide-y divide-zinc-800">
       <div :for={row <- @row} class="px-4 py-[1.1rem] sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm/7 font-medium text-zinc-100 pl-6">{row.key}</dt>
+        <dt class="text-sm/7 font-medium text-zinc-100 pl-0 sm:pl-6">{row.key}</dt>
         <dd class="mt-1 text-sm/6 text-zinc-400 sm:col-span-2 sm:mt-0 ">{render_slot(row)}</dd>
       </div>
     </dl>
+    """
+  end
+
+  slot :row do
+    attr :path, :string
+    attr :active, :boolean
+  end
+
+  def sub_nav(assigns) do
+    ~H"""
+    <nav class="flex flex-1 flex-col" aria-label="Sidebar">
+      <ul role="list" class="-mx-2 space-y-1">
+        <li :for={row <- @row}>
+          <.link
+            navigate={row.path}
+            class={[
+              "group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200",
+              Map.get(row, :active, false) && "border border-1 border-zinc-700"
+            ]}
+          >
+            {render_slot(row)}
+          </.link>
+        </li>
+      </ul>
+    </nav>
     """
   end
 

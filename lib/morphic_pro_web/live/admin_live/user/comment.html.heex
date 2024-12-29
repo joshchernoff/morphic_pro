@@ -1,0 +1,44 @@
+<.admin_layout current_user={@current_user} uri={@uri}>
+  <div class="xl:pl-60">
+    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-white/5 bg-zinc-900 px-4 shadow-sm sm:px-6 lg:px-8">
+      <.mobile_menu_open />
+      <.breadcrumb>
+        <:step_1 path={~p"/admin"}>Admin</:step_1>
+        <:step_2 path={~p"/admin/users"}>Users</:step_2>
+        <:step_3 path={~p"/admin/users/#{@user}"}>{@user.email}</:step_3>
+        <:step_4>Comments</:step_4>
+      </.breadcrumb>
+    </div>
+
+    <main class="lg:pr-96 relative flex">
+      <div class="flex w-full">
+        <div class="px-8 py-6 border-r border-zinc-800 h-full">
+          <.sub_nav>
+            <:row path={~p"/admin/users/#{@user}"}>Account</:row>
+            <:row path={~p"/admin/users/#{@user}/organizations"}>Organizations</:row>
+            <:row path={~p"/admin/users/#{@user}/request-for-proposals"}>RFPs</:row>
+            <:row path={~p"/admin/users/#{@user}/quotes"}>Quotes</:row>
+            <:row path={~p"/admin/users/#{@user}/invoices"}>Invoices</:row>
+            <:row path={~p"/admin/users/#{@user}/payments"}>Payments</:row>
+            <:row path={~p"/admin/users/#{@user}/projects"}>Projects</:row>
+            <:row path={~p"/admin/users/#{@user}/tasks"}>Tasks</:row>
+            <:row active path={~p"/admin/users/#{@user}/comments"}>Commnets</:row>
+            <:row path={~p"/admin/users/#{@user}/messages"}>Messages</:row>
+          </.sub_nav>
+        </div>
+        <div class="flex-1"></div>
+      </div>
+    </main>
+
+    <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
+      <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-[1.1rem] lg:px-8">
+        <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
+          <.icon name="hero-user-solid" class="w-6 h-6 mr-2" /> FOOBAR
+        </h2>
+      </header>
+      <div class="px-4 sm:px-6 lg:px-8 py-8 gap-y-4 flex flex-col">
+        <!------->
+      </div>
+    </aside>
+  </div>
+</.admin_layout>

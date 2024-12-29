@@ -88,6 +88,15 @@ defmodule MorphicProWeb.Router do
       # live "/admin/tasks/:id", AdminLive.Task, :show
       # live "/admin/tasks", AdminLive.Task, :index
 
+      live "/admin/users/:id/tasks", AdminLive.User.Task, :index
+      live "/admin/users/:id/projects", AdminLive.User.Project, :index
+      live "/admin/users/:id/comments", AdminLive.User.Comment, :index
+      live "/admin/users/:id/messages", AdminLive.User.Message, :index
+      live "/admin/users/:id/payments", AdminLive.User.Payment, :index
+      live "/admin/users/:id/invoices", AdminLive.User.Invoice, :index
+      live "/admin/users/:id/quotes", AdminLive.User.Quote, :index
+      live "/admin/users/:id/request-for-proposals", AdminLive.User.RequestForProposal, :index
+      live "/admin/users/:id/organizations", AdminLive.User.Organization, :index
       live "/admin/users/:id/edit", AdminLive.User.Edit, :edit
       live "/admin/users/:id", AdminLive.User.Show, :show
       live "/admin/users", AdminLive.User.Index, :index

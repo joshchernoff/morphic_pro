@@ -12,97 +12,71 @@
     <main class="lg:pr-96 relative flex">
       <div class="flex w-full">
         <div class="px-8 py-6 border-r border-zinc-800 h-full">
-          <nav class="flex flex-1 flex-col" aria-label="Sidebar">
-            <ul role="list" class="-mx-2 space-y-1">
-              <li>
-                <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-zinc-200 hover:bg-gray-50" -->
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md border border-1 border-zinc-700 p-2 pl-3 text-sm/6 font-semibold text-zinc-100"
-                >
-                  Account
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Profile
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Organizations
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  RFPs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Quotes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Invoices
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Payments
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Messages
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="group flex gap-x-3 rounded-md p-2 pl-3 text-sm/6 font-semibold text-zinc-500 hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  Comments
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <.sub_nav>
+            <:row active path={~p"/admin/users/#{@user}"}>Account</:row>
+            <:row path={~p"/admin/users/#{@user}/organizations"}>Organizations</:row>
+            <:row path={~p"/admin/users/#{@user}/request-for-proposals"}>RFPs</:row>
+            <:row path={~p"/admin/users/#{@user}/quotes"}>Quotes</:row>
+            <:row path={~p"/admin/users/#{@user}/invoices"}>Invoices</:row>
+            <:row path={~p"/admin/users/#{@user}/payments"}>Payments</:row>
+            <:row path={~p"/admin/users/#{@user}/projects"}>Projects</:row>
+            <:row path={~p"/admin/users/#{@user}/tasks"}>Tasks</:row>
+            <:row path={~p"/admin/users/#{@user}/comments"}>Commnets</:row>
+            <:row path={~p"/admin/users/#{@user}/messages"}>Messages</:row>
+          </.sub_nav>
         </div>
         <div class="flex-1">
           <.content_list>
             <:row key="Admin">
               {@user.admin}
             </:row>
+
             <:row key="Email address">
               {@user.email}
             </:row>
-            <:row key="User Created On">
+
+            <:row key="First Name">
+              {@user.first_name}
+            </:row>
+
+            <:row key="Last Name">
+              {@user.last_name}
+            </:row>
+
+            <:row key="User Name">
+              {@user.user_name}
+            </:row>
+
+            <:row key="Street Address">
+              {@user.street_address}
+            </:row>
+
+            <:row key="City">
+              {@user.city_address}
+            </:row>
+
+            <:row key="State">
+              {@user.state_address}
+            </:row>
+
+            <:row key="Zip">
+              {@user.zip_address}
+            </:row>
+
+            <:row key="User Created At">
               {@user.inserted_at}
             </:row>
-            <:row key="User Updated On">
+
+            <:row key="User Updated At">
               {@user.updated_at}
+            </:row>
+
+            <:row key="User Confirmed At">
+              {@user.confirmed_at}
+            </:row>
+
+            <:row :for={social <- @user.social_urls} key={"Social URLs: #{social.name}"}>
+              {social.url}
             </:row>
           </.content_list>
         </div>
@@ -141,12 +115,12 @@
           </button>
         </.link>
       </div>
-      <header class="flex items-center justify-between border-t border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <header class="flex items-center justify-between border-t border-white/5 px-4 py-4 sm:px-6 sm:py-[1.1rem] lg:px-8">
         <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
-          <.icon name="hero-list-bullet" class="w-6 h-6 mr-2" /> User's Feed
+          <.icon name="hero-user-solid" class="w-6 h-6 mr-2" /> Actions
         </h2>
       </header>
-      <div class="px-4 sm:px-6 lg:px-8 py-8 gap-y-4 flex flex-col border-t border-zinc-800 py-4 mt-2 ">
+      <div class="px-4 sm:px-6 lg:px-8 py-8 gap-y-4 flex flex-col border-t border-zinc-800">
         <div class="flow-root">
           <ul role="list" class="-mb-8">
             <li>

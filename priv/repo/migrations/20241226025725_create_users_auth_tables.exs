@@ -9,7 +9,21 @@ defmodule MorphicPro.Repo.Migrations.CreateUsersAuthTables do
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
       add :confirmed_at, :utc_datetime
+
       add :admin, :boolean, default: false
+
+      add :first_name, :string
+      add :last_name, :string
+      add :user_name, :string
+
+      add :avatar_uri, :string
+      add :social_urls, {:array, :map}, default: []
+
+      add :street_address, :string
+      add :city_address, :string
+      add :state_address, :string
+      add :zip_address, :string
+
       timestamps(type: :utc_datetime)
     end
 

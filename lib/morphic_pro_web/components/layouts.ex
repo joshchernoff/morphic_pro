@@ -157,17 +157,16 @@ defmodule MorphicProWeb.Layouts do
   def links() do
     [
       %{name: "Users", path: ~p"/admin/users", icon: "hero-user"},
-      %{name: "Orgs", path: ~p"/admin/orgs", icon: "hero-building-office"}
-      # %{name: "Tasks", path: ~p"/admin/tasks", icon: "hero-list-bullet"},
-      # %{name: "RFPs", path: ~p"/admin/rfp", icon: "hero-document-magnifying-glass"},
-      # %{name: "Quotes", path: ~p"/admin/quotes", icon: "hero-document-text"},
-      # %{name: "Invoices", path: ~p"/admin/invoices", icon: "hero-document-check"},
-      # %{name: "Payments", path: ~p"/admin/payments", icon: "hero-credit-card"},
-      # %{name: "Projects", path: ~p"/admin/projects", icon: "hero-folder"}
-
-      # %{name: "Messages", path: ~p"/admin/messages", icon: "hero-envelope"},
-      # %{name: "Posts", path: ~p"/admin/posts", icon: "hero-book-open"},
-      # %{name: "Comments", path: ~p"/admin/comments", icon: "hero-chat-bubble-left"}
+      %{name: "Orgs", path: ~p"/admin/orgs", icon: "hero-building-office"},
+      %{name: "RFPs", path: ~p"/admin/rfp", icon: "hero-document-magnifying-glass"},
+      %{name: "Quotes", path: ~p"/admin/quotes", icon: "hero-document-text"},
+      %{name: "Invoices", path: ~p"/admin/invoices", icon: "hero-document-check"},
+      %{name: "Payments", path: ~p"/admin/payments", icon: "hero-credit-card"},
+      %{name: "Projects", path: ~p"/admin/projects", icon: "hero-folder"},
+      %{name: "Tasks", path: ~p"/admin/tasks", icon: "hero-list-bullet"},
+      %{name: "Messages", path: ~p"/admin/messages", icon: "hero-envelope"},
+      %{name: "Posts", path: ~p"/admin/posts", icon: "hero-book-open"},
+      %{name: "Comments", path: ~p"/admin/comments", icon: "hero-chat-bubble-left"}
     ]
   end
 

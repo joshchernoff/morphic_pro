@@ -5,6 +5,19 @@ defmodule MorphicPro.Users.User do
   @foreign_key_type :binary_id
   schema "users" do
     field :admin, :boolean, default: false
+
+    field :first_name, :string
+    field :last_name, :string
+    field :user_name, :string
+
+    field :avatar_uri, :string
+    embeds_many :social_urls, MorphicPro.Users.User.SocialUrl
+
+    field :street_address, :string
+    field :city_address, :string
+    field :state_address, :string
+    field :zip_address, :string
+
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
@@ -159,5 +172,42 @@ defmodule MorphicPro.Users.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  def profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [
+      :first_name,
+      :last_name,
+      :user_name,
+      :avatar_uri,
+      :street_address,
+      :city_address,
+      :state_address,
+      :zip_address
+    ])
+    |> cast_embed(:social_urls, with: &MorphicPro.Users.User.SocialUrl.changeset/2)
+  end
+
+  def admin_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:admin])
+  end
+end
+
+defmodule MorphicPro.Users.User.SocialUrl do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  embedded_schema do
+    field :name, :string
+    field :url, :string
+  end
+
+  def changeset(social_url, attrs) do
+    social_url
+    |> cast(attrs, [:name, :url])
+    |> validate_required([:name, :url])
+    |> validate_format(:url, ~r/^https?:\/\/[\w.-]+/, message: "must be a valid URL")
   end
 end

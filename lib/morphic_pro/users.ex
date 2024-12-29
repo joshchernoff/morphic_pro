@@ -408,4 +408,24 @@ defmodule MorphicPro.Users do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def change_user_admin(user, attrs) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.admin_changeset(user, attrs))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.by_user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} -> {:ok, user}
+      {:error, :user, changeset, _} -> {:error, changeset}
+    end
+  end
+
+  def update_user_profile(user, attrs) do
+    change_user_profile(user, attrs)
+    |> Repo.update()
+  end
+
+  def change_user_profile(user, attrs) do
+    User.profile_changeset(user, attrs)
+  end
 end

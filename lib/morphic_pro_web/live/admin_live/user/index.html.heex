@@ -17,7 +17,7 @@
         <li
           :for={{dom_id, user} <- @streams.users}
           id={dom_id}
-          class="relative flex justify-between gap-x-6 py-5 px-5"
+          class="relative flex justify-between gap-x-6 py-5 px-5 hover:bg-zinc-800"
         >
           <div class="flex min-w-0 gap-x-4 items-center">
             <img
@@ -33,22 +33,34 @@
             <div class="min-w-0 flex-auto">
               <p class="text-sm/6 font-semibold text-zinc-100">
                 <.link patch={~p"/admin/users/#{user}"}>
-                  <span class="absolute inset-x-0 -top-px bottom-0"></span>{user.email}
+                  <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                  {user.email}
                 </.link>
               </p>
-              <p class="mt-1 flex text-xs/5 text-zinc-500">
-                <a href={"mailto:#{user.email}"} class="relative truncate hover:underline">
-                  {user.email}
-                </a>
+              <p class="mt-1 flex text-xs/5 text-zinc-500 gap-x-4">
+                <span :if={user.first_name || user.last_name} class="relative truncate">
+                  {"#{user.first_name} #{user.last_name}"}
+                </span>
+              </p>
+              <p class="mt-1 flex text-xs/5 text-zinc-500 gap-x-4">
+                <span :if={user.user_name} class="relative truncate">
+                  {user.user_name}
+                </span>
               </p>
             </div>
           </div>
 
           <div class="flex shrink-0 items-center gap-x-4">
             <div class="hidden sm:flex sm:flex-col sm:items-end">
-              <p class="text-sm/6 text-zinc-100">TITLE</p>
+              <p :if={user.admin} class="text-sm/6 text-zinc-100">Admin</p>
               <p class="mt-1 text-xs/5 text-zinc-500">
-                Created <time datetime="2023-01-23T13:23Z">{user.inserted_at}</time>
+                Created At<time datetime="2023-01-23T13:23Z">{user.inserted_at}</time>
+              </p>
+              <p class="mt-1 text-xs/5 text-zinc-500">
+                Updated At <time datetime="2023-01-23T13:23Z">{user.updated_at}</time>
+              </p>
+              <p class="mt-1 text-xs/5 text-zinc-500">
+                Confirmed At <time datetime="2023-01-23T13:23Z">{user.confirmed_at}</time>
               </p>
             </div>
             <svg

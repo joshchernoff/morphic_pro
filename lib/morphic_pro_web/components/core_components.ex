@@ -147,10 +147,12 @@ defmodule MorphicProWeb.CoreComponents do
         action="#"
         method="GET"
         phx-change="search"
+        phx-save="seach"
+        onkeydown="return event.key != 'Enter';"
       >
         <input
           type="search"
-          name="search"
+          name="search[query]"
           aria-label="Search"
           class="border-0 col-start-1 row-start-1 block size-full bg-transparent pl-8 text-base text-white outline-none ring-0 focus:ring-0 placeholder:text-zinc-500 sm:text-sm/6"
           placeholder="Search"

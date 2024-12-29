@@ -8,9 +8,54 @@ defmodule MorphicPro.Users do
 
   alias MorphicPro.Users.{User, UserToken, UserNotifier}
 
-  def list_users(_opt) do
-    Repo.all(User)
+  def list_users(params) do
+    from(u in User)
+    |> where(^build_where(params))
+    |> order_by(^build_order(params))
+    |> Repo.all()
   end
+
+  defp build_where(params) do
+    IO.inspect(params)
+
+    Enum.reduce(params, dynamic(true), fn
+      {:query, value}, dynamic ->
+        dynamic([u], ^dynamic and ilike(u.email, ^"%#{value}%"))
+
+      {:admin, "true"}, dynamic ->
+        dynamic([u], ^dynamic and u.admin == true)
+
+      {:admin, "false"}, dynamic ->
+        dynamic([u], ^dynamic and u.admin == false)
+
+      {:confirmed, "true"}, dynamic ->
+        dynamic([u], ^dynamic and not is_nil(u.confirmed_at))
+
+      {:confirmed, "false"}, dynamic ->
+        dynamic([u], ^dynamic and is_nil(u.confirmed_at))
+
+      # {:order_field, _}, dynamic ->
+      #   dynamic
+
+      # {:order_direction, _}, dynamnic ->
+      #   dynamnic
+      # [:admin, "true"], dynamic ->
+      #   dynamic([u], ^dynamic and u.admin == true)
+
+      # [:admin, "false"], dynamic ->
+      #   dynamic([u], ^dynamic and u.admin == false)
+
+      {_, _}, dynamic ->
+        dynamic
+    end)
+  end
+
+  defp build_order(%{order_field: field, order_direction: direction})
+       when not is_nil(field) and not is_nil(direction) do
+    [{String.to_atom(direction), dynamic([u], field(u, ^String.to_existing_atom(field)))}]
+  end
+
+  defp build_order(_), do: []
 
   @doc """
   Returns the list of users.

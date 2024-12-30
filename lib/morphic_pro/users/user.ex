@@ -193,6 +193,24 @@ defmodule MorphicPro.Users.User do
     user
     |> cast(attrs, [:admin])
   end
+
+  def generate_password(length \\ 72) do
+    charset =
+      Enum.concat([
+        # Uppercase letters
+        ?A..?Z |> Enum.to_list() |> List.to_string() |> String.graphemes(),
+        # Lowercase letters
+        ?a..?z |> Enum.to_list() |> List.to_string() |> String.graphemes(),
+        # Numbers
+        ?0..?9 |> Enum.to_list() |> List.to_string() |> String.graphemes(),
+        # Special characters
+        # Special characters as charlist
+        String.graphemes("!@#$%^&*()-_=+[]{}|;:,.<>?/")
+      ])
+
+    Enum.map(1..length, fn _ -> Enum.random(charset) end)
+    |> Enum.join()
+  end
 end
 
 defmodule MorphicPro.Users.User.SocialUrl do

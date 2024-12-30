@@ -3,6 +3,8 @@ defmodule MorphicProWeb.AdminLive.User.Index do
   import MorphicProWeb.Layouts, only: [admin_layout: 1, mobile_menu_open: 1]
   import DateUtils
 
+  alias MorphicPro.Users
+
   @impl true
   def mount(%{"search" => search_params}, _session, socket) do
     search_params = parse_search_params(search_params)
@@ -86,6 +88,25 @@ defmodule MorphicProWeb.AdminLive.User.Index do
       |> dbg()
 
     {:noreply, socket |> push_patch(to: ~p"/admin/users?#{%{"search" => clear_search}}")}
+  end
+
+  def handle_event("send_invite", %{"user" => %{"email" => email}}, socket) do
+    {:ok, user} =
+      Users.register_user(%{
+        email: email,
+        password: Users.User.generate_password()
+      })
+      |> dbg()
+
+    Users.deliver_user_invite(
+      user,
+      &url(~p"/users/invite/#{&1}")
+    )
+
+    info =
+      "The user was successfully sent an invitation to join the site"
+
+    {:noreply, socket |> put_flash(:info, info) |> stream_insert(:users, user, at: 0)}
   end
 
   def parse_search_params(search_params) do

@@ -58,6 +58,26 @@ defmodule MorphicPro.Users.UserNotifier do
   end
 
   @doc """
+  Deliver invite to a user email.
+  """
+  def deliver_user_invite(user, url) do
+    deliver(user.email, "User Invite", """
+
+    ==============================
+
+    Hi #{user.email},
+
+    You have been invited to Morphic.Pro, to accept vist the URL below:
+
+    #{url}
+
+    If you don't want the invite, please ignore this email.
+
+    ==============================
+    """)
+  end
+
+  @doc """
   Deliver instructions to update a user email.
   """
   def deliver_update_email_instructions(user, url) do

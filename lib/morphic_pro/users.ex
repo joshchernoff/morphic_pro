@@ -138,6 +138,22 @@ defmodule MorphicPro.Users do
     |> Repo.insert()
   end
 
+  @doc ~S"""
+  Delivers the invite email for a new user.
+
+  ## Examples
+
+      iex> deliver_user_invite(user, &url(~p"/users/invite/#{&1}"))
+      {:ok, %{to: ..., body: ...}}
+
+  """
+  def deliver_user_invite(%User{} = user, invite_url_fun)
+      when is_function(invite_url_fun, 1) do
+    {encoded_token, user_token} = UserToken.build_email_token(user, "invite")
+    Repo.insert!(user_token)
+    UserNotifier.deliver_user_invite(user, invite_url_fun.(encoded_token))
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
@@ -379,6 +395,27 @@ defmodule MorphicPro.Users do
   """
   def get_user_by_reset_password_token(token) do
     with {:ok, query} <- UserToken.verify_email_token_query(token, "reset_password"),
+         %User{} = user <- Repo.one(query) do
+      user
+    else
+      _ -> nil
+    end
+  end
+
+  @doc """
+  Gets the user by invite token.
+
+  ## Examples
+
+      iex> get_user_by_invite_token("validtoken")
+      %User{}
+
+      iex> get_user_by_invite_token("invalidtoken")
+      nil
+
+  """
+  def get_user_by_invite_token(token) do
+    with {:ok, query} <- UserToken.verify_email_token_query(token, "invite"),
          %User{} = user <- Repo.one(query) do
       user
     else

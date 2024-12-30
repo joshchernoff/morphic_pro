@@ -9,6 +9,8 @@
       </.breadcrumb>
     </div>
 
+    <.flash_group flash={@flash} />
+
     <main class="lg:pr-96 relative">
       <div class="sticky top-16 z-40 bg-zinc-900">
         <.search_form value={@search_params |> Map.get(:query, nil)} />
@@ -82,15 +84,17 @@
     </main>
 
     <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
-      <form
-        phx-change="invite"
+      <.form
+        for={%{}}
+        as={:user}
+        id="invite"
+        phx-submit="send_invite"
         class="mt-6 sm:flex sm:max-w-md px-8 pb-6 border-b border-zinc-800"
-        style="display: none;"
       >
         <label for="email-address" class="sr-only">Email address</label>
         <input
           type="email"
-          name="email-address"
+          name="user[email]"
           id="email-address"
           autocomplete="email"
           required
@@ -98,14 +102,11 @@
           placeholder="Enter user's email"
         />
         <div class="mt-4 sm:ml-4 sm:mt-0 sm:shrink-0">
-          <button
-            type="submit"
-            class="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-          >
+          <button class="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
             <.icon name="hero-envelope" class="w-6 h-6 mr-2" /> Invite
           </button>
         </div>
-      </form>
+      </.form>
       <header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-[1.1rem] lg:px-8">
         <h2 class="text-base/7 font-semibold text-white items-center content-center flex">
           <.icon name="hero-funnel" class="w-6 h-6 mr-2" /> Filter / Sorting

@@ -38,6 +38,7 @@ defmodule MorphicProWeb.Router do
       live "/users/log_in", UserLive.Login, :new
       live "/users/reset_password", UserLive.ForgotPassword, :new
       live "/users/reset_password/:token", UserLive.ResetPassword, :edit
+      live "/users/invite/:token", UserLive.Invite, :new
     end
 
     post "/users/log_in", UserSessionController, :create

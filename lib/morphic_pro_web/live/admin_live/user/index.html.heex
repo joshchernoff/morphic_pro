@@ -54,13 +54,13 @@
             <div class="hidden sm:flex sm:flex-col sm:items-end">
               <p :if={user.admin} class="text-sm/6 text-zinc-100">Admin</p>
               <p class="mt-1 text-xs/5 text-zinc-500">
-                Created At<time datetime="2023-01-23T13:23Z">{user.inserted_at}</time>
+                Updated: <time datetime={user.updated_at}>{time_ago(user.updated_at)}</time>
+              </p>
+              <p :if={user.confirmed_at} class="mt-1 text-xs/5 text-zinc-500">
+                Confirmed: <time datetime={user.confirmed_at}>{time_ago(user.confirmed_at)}</time>
               </p>
               <p class="mt-1 text-xs/5 text-zinc-500">
-                Updated At <time datetime="2023-01-23T13:23Z">{user.updated_at}</time>
-              </p>
-              <p class="mt-1 text-xs/5 text-zinc-500">
-                Confirmed At <time datetime="2023-01-23T13:23Z">{user.confirmed_at}</time>
+                Created: <time datetime={user.inserted_at}>{time_ago(user.inserted_at)}</time>
               </p>
             </div>
             <svg

@@ -1,6 +1,7 @@
 defmodule MorphicProWeb.AdminLive.User.Index do
   use MorphicProWeb, :live_view
   import MorphicProWeb.Layouts, only: [admin_layout: 1, mobile_menu_open: 1]
+  import DateUtils
 
   @impl true
   def mount(%{"search" => search_params}, _session, socket) do

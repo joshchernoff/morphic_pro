@@ -316,6 +316,21 @@ defmodule MorphicPro.Users do
     :ok
   end
 
+  def delete_user(id) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.run(:get_user, fn _repo, _changes ->
+      case Repo.get(User, id) do
+        nil -> {:error, :user_not_found}
+        user -> {:ok, user}
+      end
+    end)
+    |> Ecto.Multi.delete(:user, fn %{get_user: user} -> user end)
+    |> Ecto.Multi.delete_all(:tokens, fn %{get_user: user} ->
+      UserToken.by_user_and_contexts_query(user, :all)
+    end)
+    |> Repo.transaction()
+  end
+
   ## Confirmation
 
   @doc ~S"""

@@ -106,6 +106,16 @@
             Ban User
           </button>
         </.link>
+
+        <span data-confirm="Are you sure?" phx-click="delete-user" phx-value-id={@user.id}>
+          <button
+            type="button"
+            class="rounded-md bg-zinc-900 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            Delete User
+          </button>
+        </span>
+
         <.link :if={@user} patch={~p"/admin/users/#{@user}/edit"}>
           <button
             type="button"

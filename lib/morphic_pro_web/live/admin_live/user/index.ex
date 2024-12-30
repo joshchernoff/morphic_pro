@@ -13,6 +13,7 @@ defmodule MorphicProWeb.AdminLive.User.Index do
      socket
      |> assign(:page_title, "Users - Admin - Morphic.Pro")
      |> assign(:search_params, search_params)
+     |> assign(:invite_wipe, nil)
      |> stream(:users, MorphicPro.Users.list_users(search_params))}
   end
 
@@ -22,6 +23,7 @@ defmodule MorphicProWeb.AdminLive.User.Index do
      |> assign(:page_title, "Users - Admin - Morphic.Pro")
      |> assign(:search, nil)
      |> assign(:search_params, %{})
+     |> assign(:invite_wipe, nil)
      |> stream(:users, MorphicPro.Users.list_users())}
   end
 
@@ -90,6 +92,10 @@ defmodule MorphicProWeb.AdminLive.User.Index do
     {:noreply, socket |> push_patch(to: ~p"/admin/users?#{%{"search" => clear_search}}")}
   end
 
+  def handle_event("change_invite", %{"user" => %{"email" => email}}, socket) do
+    {:noreply, assign(socket, :invite_wipe, email)}
+  end
+
   def handle_event("send_invite", %{"user" => %{"email" => email}}, socket) do
     {:ok, user} =
       Users.register_user(%{
@@ -106,7 +112,11 @@ defmodule MorphicProWeb.AdminLive.User.Index do
     info =
       "The user was successfully sent an invitation to join the site"
 
-    {:noreply, socket |> put_flash(:info, info) |> stream_insert(:users, user, at: 0)}
+    {:noreply,
+     socket
+     |> put_flash(:info, info)
+     |> stream_insert(:users, user, at: 0)
+     |> assign(:invite_wipe, nil)}
   end
 
   def parse_search_params(search_params) do
